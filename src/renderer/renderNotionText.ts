@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { NotionPageText } from '../types/notion';
 import { NotionRenderChild, NotionRenderFuncs } from './index';
 import { RenderUtils } from './renderUtils';
@@ -6,9 +5,9 @@ import { RenderUtils } from './renderUtils';
 type LinkTextSplit = { ref: string; items: NotionPageText[] };
 
 function extractLink(item: NotionPageText): [NotionPageText, string] {
-  // we copy the attributes because _.remove mutates the array
-  const atts = item.atts ? [...item.atts] : [];
-  const refAtts = _.remove(atts, a => a.att === 'a');
+  const isA = (a: any) => a.att === 'a';
+  const atts = (item.atts || []).filter(a => !isA(a));
+  const refAtts = (item.atts || []).filter(a => isA(a));
   const ref = refAtts.length > 0 ? refAtts[0].value || '' : '';
   return [{ text: item.text, atts }, ref];
 }

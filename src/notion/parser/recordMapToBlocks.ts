@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { Json, NotionPageText, NotionPageBlock } from '../../types/notion';
 
 export type NotionTextAttributes = string[][];
@@ -50,17 +49,17 @@ function recordToBlock(value: Json): NotionPageBlock | null {
   if (block.type === 'image') {
     block.attributes.push({
       att: 'width',
-      value: _.get(value as object, 'format.block_width', '-1'),
+      value: (value as any)?.format?.block_width ?? '-1',
     });
     block.attributes.push({
       att: 'aspectRatio',
-      value: _.get(value as object, 'format.block_aspect_ratio', '-1'),
+      value: (value as any)?.format?.block_aspect_ratio ?? '-1',
     });
   }
   if (block.type === 'page') {
     block.attributes.push({
       att: 'pageIcon',
-      value: _.get(value as object, 'format.page_icon', ''),
+      value: (value as any)?.format?.page_icon ?? '',
     });
   }
   return block;
